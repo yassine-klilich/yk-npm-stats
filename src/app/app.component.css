@@ -1,0 +1,9 @@
+.filters {
+  display: flex;
+  column-gap: 20px;
+}
+.filter-wrapper {
+  display: flex;
+  column-gap: 6px;
+  align-items: center;
+}
