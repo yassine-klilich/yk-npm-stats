@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NPMDownloadCount } from './services/npm-download-count.service';
+import { Chart, registerables } from 'chart.js';
+import { IPackage } from './model/IPackage';
 
 @Component({
   selector: 'app-root',
@@ -8,13 +10,13 @@ import { NPMDownloadCount } from './services/npm-download-count.service';
 })
 export class AppComponent {
 
-  packages: Array<string> = [
+  package_names: Array<string> = [
     "ngx-interpolation",
     "yk-color-parser",
     "yk-tool-tipsy"
   ]
-  downloads_count: Array<any> = []
-  last_period: Period = Period.LastDay
+  packages: Array<IPackage> = []
+  last_period: Period = Period.LastWeek
   start_date: string = ""
   end_date: string = ""
 
@@ -25,6 +27,7 @@ export class AppComponent {
   }
 
   ngOnInit() {
+    Chart.register(...registerables)
     this.loadPackagesCount()
   }
 
@@ -34,7 +37,7 @@ export class AppComponent {
 
   onDatePickerChange() {
     // TO-DO: make the date-picker interactive with the radio buttons
-    // when selecting a date range that is equals to last week, then check the last week radio button
+    // when selecting a date range that is equal to last week date range, then check the last week radio button
     // and this must apply on all radio buttons
     this.last_period = Period.Custom
     this.loadPackagesCount()
@@ -101,20 +104,29 @@ export class AppComponent {
 
   private fetchData() {
     this.npmDownloadCount
-    .setPackageNames(this.packages)
+    .setPackageNames(this.package_names)
+    .setRange(true)
     .fetch()
     .subscribe((data) => {
-      console.log(data);
-      const packages_count: Array<any> = []
-
-      for (let key in data) {
-        if (data.hasOwnProperty(key)) {
-          packages_count.push(data[key])
-        }
-      }
-
-      this.downloads_count = packages_count
+      this.packages = this.formatFetchedData(data)
     })
+  }
+
+  private formatFetchedData(data: any): Array<IPackage> {
+    const packages_count: Array<any> = []
+
+    for (let key in data) {
+      if (data.hasOwnProperty(key)) {
+        const packageItem: IPackage = {
+          name: data[key].package,
+          downloads: data[key].downloads,
+          countDownloads: data[key].downloads.reduce((sum: number, item: any) => sum + item.downloads, 0)
+        }
+        packages_count.push(packageItem)
+      }
+    }
+
+    return packages_count
   }
 }
 

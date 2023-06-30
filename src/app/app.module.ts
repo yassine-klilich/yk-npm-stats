@@ -5,10 +5,12 @@ import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { NPMDownloadCount } from './services/npm-download-count.service';
+import { PackageItemComponent } from './components/package-item/package-item.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PackageItemComponent
   ],
   imports: [
     BrowserModule,

@@ -21,11 +21,7 @@
   </div>
 </div>
 <hr>
-<div *ngFor="let package of downloads_count">
-  <h3>{{package.package}}</h3>
-  <div>
-    <span>Downloads:</span>
-    <strong>{{package.downloads}}</strong>
-  </div>
+<div *ngFor="let package of packages">
+  <app-package-item [package]="package" />
   <hr>
 </div>
