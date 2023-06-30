@@ -33,6 +33,11 @@ export class NPMDownloadCount {
     return this
   }
 
+  setPackageNames(names: Array<string>): NPMDownloadCount {
+    this.package_name = names.join(",")
+    return this
+  }
+
   clear(): void {
     this.by_range = false
     this.start_date = ""

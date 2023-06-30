@@ -1,30 +1,31 @@
 <div class="filters">
   <div class="filter-wrapper">
     <label for="start-date">Start date</label>
-    <input id="start-date" type="date" [(ngModel)]="start_date">
+    <input id="start-date" type="date" [(ngModel)]="start_date" (change)="onDatePickerChange()">
   </div>
   <div class="filter-wrapper">
     <label for="end-date">End date</label>
-    <input id="end-date" type="date" [(ngModel)]="end_date">
+    <input id="end-date" type="date" [(ngModel)]="end_date" (change)="onDatePickerChange()">
   </div>
   <div class="filter-wrapper">
-    <input id="last-day" type="radio" name="last-period" [(ngModel)]="last_period" value="day" (change)="onPeriodChange()">
+    <input id="last-day" type="radio" name="last-period" [(ngModel)]="last_period" [value]="Period.LastDay" (change)="onPeriodChange()">
     <label for="last-day">Last day</label>
   </div>
   <div class="filter-wrapper">
-    <input id="last-week" type="radio" name="last-period" [(ngModel)]="last_period" value="week" (change)="onPeriodChange()">
+    <input id="last-week" type="radio" name="last-period" [(ngModel)]="last_period" [value]="Period.LastWeek" (change)="onPeriodChange()">
     <label for="last-week">Last week</label>
   </div>
   <div class="filter-wrapper">
-    <input id="last-month" type="radio" name="last-period" [(ngModel)]="last_period" value="month" (change)="onPeriodChange()">
+    <input id="last-month" type="radio" name="last-period" [(ngModel)]="last_period" [value]="Period.LastMonth" (change)="onPeriodChange()">
     <label for="last-month">Last month</label>
   </div>
 </div>
-
+<hr>
 <div *ngFor="let package of downloads_count">
   <h3>{{package.package}}</h3>
   <div>
     <span>Downloads:</span>
     <strong>{{package.downloads}}</strong>
   </div>
+  <hr>
 </div>
