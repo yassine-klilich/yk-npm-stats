@@ -1,26 +1,25 @@
-import { Component } from '@angular/core';
-import { NPMDownloadCount } from './services/npm-download-count.service';
-import { Chart, registerables } from 'chart.js';
-import { IPackage } from './model/IPackage';
+import { Component } from '@angular/core'
+import { NPMDownloadCount } from './services/npm-download-count.service'
+import { Chart, registerables } from 'chart.js'
+import { IPackage } from './model/IPackage'
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-
   package_names: Array<string> = [
-    "ngx-interpolation",
-    "yk-color-parser",
-    "yk-tool-tipsy"
+    'ngx-interpolation',
+    'yk-color-parser',
+    'yk-tool-tipsy',
   ]
   packages: Array<IPackage> = []
   last_period: Period = Period.LastWeek
-  start_date: string = ""
-  end_date: string = ""
+  start_date: string = ''
+  end_date: string = ''
 
-  constructor(private npmDownloadCount: NPMDownloadCount) { }
+  constructor(private npmDownloadCount: NPMDownloadCount) {}
 
   public get Period(): typeof Period {
     return Period
@@ -65,31 +64,39 @@ export class AppComponent {
     let end_date: Date = new Date(this.end_date)
 
     switch (this.last_period) {
-      case Period.LastDay: {
-        const yesterday = new Date()
-        yesterday.setDate(yesterday.getDate() - 1)
+      case Period.LastDay:
+        {
+          const yesterday = new Date()
+          yesterday.setDate(yesterday.getDate() - 1)
 
-        start_date = end_date = yesterday
-      } break;
+          start_date = end_date = yesterday
+        }
+        break
 
-      case Period.LastWeek: {
-        const today = new Date()
-        const lastWeek = new Date(today)
-        lastWeek.setDate(today.getDate() - 7)
-        today.setDate(today.getDate() - 1)
+      case Period.LastWeek:
+        {
+          const today = new Date()
+          const lastWeek = new Date(today)
+          lastWeek.setDate(today.getDate() - 7)
+          today.setDate(today.getDate() - 1)
 
-        start_date = lastWeek
-        end_date = today
-      } break;
+          start_date = lastWeek
+          end_date = today
+        }
+        break
 
-      case Period.LastMonth: {
-        const today = new Date()
-        const last30Days = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000)
-        today.setDate(today.getDate() - 1)
+      case Period.LastMonth:
+        {
+          const today = new Date()
+          const last30Days = new Date(
+            today.getTime() - 30 * 24 * 60 * 60 * 1000
+          )
+          today.setDate(today.getDate() - 1)
 
-        start_date = last30Days
-        end_date = today
-      } break;
+          start_date = last30Days
+          end_date = today
+        }
+        break
     }
 
     if (start_date.getTime() > end_date.getTime()) {
@@ -104,12 +111,12 @@ export class AppComponent {
 
   private fetchData() {
     this.npmDownloadCount
-    .setPackageNames(this.package_names)
-    .setRange(true)
-    .fetch()
-    .subscribe((data) => {
-      this.packages = this.formatFetchedData(data)
-    })
+      .setPackageNames(this.package_names)
+      .setRange(true)
+      .fetch()
+      .subscribe((data) => {
+        this.packages = this.formatFetchedData(data)
+      })
   }
 
   private formatFetchedData(data: any): Array<IPackage> {
@@ -120,7 +127,10 @@ export class AppComponent {
         const packageItem: IPackage = {
           name: data[key].package,
           downloads: data[key].downloads,
-          countDownloads: data[key].downloads.reduce((sum: number, item: any) => sum + item.downloads, 0)
+          countDownloads: data[key].downloads.reduce(
+            (sum: number, item: any) => sum + item.downloads,
+            0
+          ),
         }
         packages_count.push(packageItem)
       }
