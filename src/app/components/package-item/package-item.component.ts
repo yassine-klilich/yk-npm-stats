@@ -9,6 +9,7 @@ import { Chart } from 'chart.js'
 })
 export class PackageItemComponent {
   @Input() package!: IPackage
+  chart!: Chart
 
   ngAfterViewInit() {
     const days: Array<string> = this.package.downloads.map((item) => item.day)
@@ -16,7 +17,7 @@ export class PackageItemComponent {
       (item) => item.downloads
     )
 
-    new Chart(`package-${this.package.name}`, {
+    this.chart = new Chart(`package-${this.package.name}`, {
       type: 'line',
       data: {
         labels: days,
@@ -30,7 +31,26 @@ export class PackageItemComponent {
         ],
       },
       options: {
+        spanGaps: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              precision: 0,
+            },
+          },
+        },
         plugins: {
+          tooltip: {
+            intersect: false,
+            mode: 'index',
+            displayColors: false,
+            callbacks: {
+              label: (tooltipItem) => {
+                return `${tooltipItem.formattedValue} downloads`
+              },
+            },
+          },
           legend: {
             display: false,
           },
@@ -38,8 +58,25 @@ export class PackageItemComponent {
             display: true,
             text: `Total downloads: ${this.package.countDownloads}`,
           },
+          zoom: {
+            pan: {
+              enabled: true,
+              mode: 'x',
+              modifierKey: 'ctrl',
+            },
+            zoom: {
+              drag: {
+                enabled: true,
+              },
+              mode: 'x',
+            },
+          },
         },
       },
     })
+  }
+
+  onClickResetZoom() {
+    this.chart.resetZoom()
   }
 }

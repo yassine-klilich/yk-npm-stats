@@ -1,8 +1,5 @@
 <h3>{{package.name}}</h3>
-<div>
-  <span>Total downloads:</span>
-  <strong>{{package.countDownloads}}</strong>
-</div>
+<button (click)="onClickResetZoom()">Reset zoom</button>
 <div class="chart-wrapper">
   <canvas id="{{ 'package-' + package.name}}"></canvas>
 </div>

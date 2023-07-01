@@ -2,6 +2,7 @@ import { Component } from '@angular/core'
 import { NPMDownloadCount } from './services/npm-download-count.service'
 import { Chart, registerables } from 'chart.js'
 import { IPackage } from './model/IPackage'
+import zoomPlugin from 'chartjs-plugin-zoom'
 
 @Component({
   selector: 'app-root',
@@ -27,6 +28,7 @@ export class AppComponent {
 
   ngOnInit() {
     Chart.register(...registerables)
+    Chart.register(zoomPlugin)
     this.loadPackagesCount()
   }
 
