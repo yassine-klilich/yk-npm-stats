@@ -20,7 +20,7 @@ export class PackageItemComponent {
       this.fetchApi(this.package.name, "pulls"),
       this.fetchApi(this.package.name, "issues"),
     ])
-    if (pulls !== null && issues !== null) {
+    if (pulls != null && issues != null) {
       this.pulls = pulls
       this.issues = issues - pulls
       this.hideGithubData = false

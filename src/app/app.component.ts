@@ -19,6 +19,7 @@ export class AppComponent {
   last_period: Period = Period.LastWeek
   start_date: string = ''
   end_date: string = ''
+  isLoading: boolean = false
 
   constructor(private npmDownloadCount: NPMDownloadCount) {}
 
@@ -112,11 +113,13 @@ export class AppComponent {
   }
 
   private fetchData() {
+    this.isLoading = true
     this.npmDownloadCount
       .setPackageNames(this.package_names)
       .setRange(true)
       .fetch()
       .subscribe((data) => {
+        this.isLoading = false
         this.packages = this.formatFetchedData(data)
       })
   }
