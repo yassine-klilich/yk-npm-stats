@@ -2,3 +2,6 @@
   display: block;
   width: 600px;
 }
+.package-name a {
+  color: #0000EE;
+}
