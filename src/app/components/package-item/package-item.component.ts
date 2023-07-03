@@ -102,6 +102,11 @@ export class PackageItemComponent {
   private async fetchApi(repo: string, resource: string) {
     try {
       const res = await window.fetch(`https://api.github.com/repos/yassine-klilich/${repo}/${resource}?per_page=1`)
+
+      if (res.ok == false) {
+        return
+      }
+
       const link = res.headers.get('Link')
       const count = this.parseLastPage(link)
       if (link != null) return count
