@@ -21,9 +21,7 @@
   </div>
 </div>
 <hr>
-<ng-container *ngIf="!isLoading; else loading">
+<h3 *ngIf="isLoading">Loading...</h3>
+<ng-container *ngIf="!isLoading">
   <app-package-item *ngFor="let package of packages" [package]="package" />
 </ng-container>
-<ng-template #loading>
-  <h3>Loading...</h3>
-</ng-template>

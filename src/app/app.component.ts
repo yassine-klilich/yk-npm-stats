@@ -38,11 +38,12 @@ export class AppComponent {
   }
 
   onDatePickerChange() {
-    // TO-DO: make the date-picker interactive with the radio buttons
-    // when selecting a date range that is equal to last week date range, then check the last week radio button
-    // and this must apply on all radio buttons
-    this.last_period = Period.Custom
-    this.loadPackagesCount()
+    if (this.calculateDays(this.start_date, this.end_date) > 365) {
+      alert('Date range must be less than 1 year')
+    } else {
+      this.last_period = Period.Custom
+      this.loadPackagesCount()
+    }
   }
 
   private setTimePeriod(start_date: Date, end_date?: Date) {
@@ -63,8 +64,8 @@ export class AppComponent {
   }
 
   private loadPackagesCount() {
-    let start_date: Date = new Date(this.start_date)
-    let end_date: Date = new Date(this.end_date)
+    let start_date: Date = new Date()
+    let end_date: Date = new Date()
 
     switch (this.last_period) {
       case Period.LastDay:
@@ -100,6 +101,13 @@ export class AppComponent {
           end_date = today
         }
         break
+
+      case Period.Custom:
+        {
+          start_date = new Date(this.start_date)
+          end_date = new Date(this.end_date)
+        }
+        break
     }
 
     if (start_date.getTime() > end_date.getTime()) {
@@ -108,8 +116,10 @@ export class AppComponent {
       end_date = temp
     }
 
-    this.setTimePeriod(start_date, end_date)
-    this.fetchData()
+    if (!isNaN(start_date.getTime()) && !isNaN(end_date.getTime())) {
+      this.setTimePeriod(start_date, end_date)
+      this.fetchData()
+    }
   }
 
   private fetchData() {
@@ -142,6 +152,21 @@ export class AppComponent {
     }
 
     return packages_count
+  }
+
+  private calculateDays(start_date: string, end_date: string): number {
+    const oneDay = 24 * 60 * 60 * 1000 // Number of milliseconds in a day
+
+    const start: Date = new Date(start_date)
+    const end: Date = new Date(end_date)
+
+    // Calculate the difference in milliseconds
+    const diff = Math.abs(end.getTime() - start.getTime())
+
+    // Convert the difference to days
+    const days = Math.floor(diff / oneDay)
+
+    return days
   }
 }
 
