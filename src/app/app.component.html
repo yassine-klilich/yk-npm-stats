@@ -1,26 +1,57 @@
 <div class="filters">
   <div class="filter-wrapper">
     <label for="start-date">Start date</label>
-    <input id="start-date" type="date" [(ngModel)]="start_date" (change)="onDatePickerChange()">
+    <input
+      id="start-date"
+      type="date"
+      [(ngModel)]="start_date"
+      (change)="onDatePickerChange()"
+    />
   </div>
   <div class="filter-wrapper">
     <label for="end-date">End date</label>
-    <input id="end-date" type="date" [(ngModel)]="end_date" (change)="onDatePickerChange()">
+    <input
+      id="end-date"
+      type="date"
+      [(ngModel)]="end_date"
+      (change)="onDatePickerChange()"
+    />
   </div>
   <div class="filter-wrapper">
-    <input id="last-day" type="radio" name="last-period" [(ngModel)]="last_period" [value]="Period.LastDay" (change)="onPeriodChange()">
+    <input
+      id="last-day"
+      type="radio"
+      name="last-period"
+      [(ngModel)]="last_period"
+      [value]="Period.LastDay"
+      (change)="onPeriodChange()"
+    />
     <label for="last-day">Last day</label>
   </div>
   <div class="filter-wrapper">
-    <input id="last-week" type="radio" name="last-period" [(ngModel)]="last_period" [value]="Period.LastWeek" (change)="onPeriodChange()">
+    <input
+      id="last-week"
+      type="radio"
+      name="last-period"
+      [(ngModel)]="last_period"
+      [value]="Period.LastWeek"
+      (change)="onPeriodChange()"
+    />
     <label for="last-week">Last week</label>
   </div>
   <div class="filter-wrapper">
-    <input id="last-month" type="radio" name="last-period" [(ngModel)]="last_period" [value]="Period.LastMonth" (change)="onPeriodChange()">
+    <input
+      id="last-month"
+      type="radio"
+      name="last-period"
+      [(ngModel)]="last_period"
+      [value]="Period.LastMonth"
+      (change)="onPeriodChange()"
+    />
     <label for="last-month">Last month</label>
   </div>
 </div>
-<hr>
+<hr />
 <h3 *ngIf="isLoading">Loading...</h3>
 <ng-container *ngIf="!isLoading">
   <app-package-item *ngFor="let package of packages" [package]="package" />

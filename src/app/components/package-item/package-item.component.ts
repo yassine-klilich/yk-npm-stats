@@ -28,9 +28,7 @@ export class PackageItemComponent {
     else {
       this.hideGithubData = true
     }
-  }
 
-  ngAfterViewInit() {
     const days: Array<string> = this.package.downloads.map((item) => item.day)
     const downloads: Array<number> = this.package.downloads.map(
       (item) => item.downloads
